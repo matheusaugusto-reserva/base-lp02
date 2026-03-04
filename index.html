@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html><html lang="pt-BR" style="scroll-behavior: auto;"><head>
 <base href="./">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Anti-Cache Meta Tags: Força o navegador a verificar por novas versões -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -44,6 +44,23 @@
       background: transparent;
       min-height: 100vh;
       min-height: 100dvh;
+    }
+
+    @media (max-width: 768px) {
+      html, body, #root, .min-h-screen {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+      }
+
+      #initial-overlay,
+      .checkout-overlay {
+        display: none !important;
+      }
+
+      /* Defensive fix: hide unexpected injected fixed bars at the very top on mobile */
+      body > div[style*="position: fixed"][style*="top: 0"] {
+        display: none !important;
+      }
     }
 
     /* Critical Fonts Definition */
