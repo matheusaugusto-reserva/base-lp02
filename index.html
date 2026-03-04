@@ -190,9 +190,8 @@
   var dpr = Math.max(1, Math.min(1.5, window.devicePixelRatio || 1));
   var isCoarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
   if (isCoarse) {
-    // Disable heavy visual effect on touch devices to preserve smooth scrolling.
-    canvas.style.display = 'none';
-    return;
+    // Keep the effect on touch devices with lower intensity/performance profile.
+    dpr = 1;
   }
   var rafId = null;
   var t = 0;
@@ -344,6 +343,23 @@
   hero.addEventListener('mousemove', function (e) {
     setTarget(e.clientX, e.clientY);
   });
+
+  hero.addEventListener('touchstart', function (e) {
+    if (!e.touches || !e.touches[0]) return;
+    active = true;
+    intensityTarget = 0.95;
+    setTarget(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+
+  hero.addEventListener('touchmove', function (e) {
+    if (!e.touches || !e.touches[0]) return;
+    setTarget(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+
+  hero.addEventListener('touchend', function () {
+    active = false;
+    intensityTarget = 0.85;
+  }, { passive: true });
 
   hero.addEventListener('mouseleave', function () {
     active = false;
@@ -1422,7 +1438,7 @@
           }
         }
       </style><!-- SECTION: S12 -->
-<section data-edit="BG_022" class="certificado-section relative overflow-hidden py-5 lg:py-[50px]" style="background: transparent;"><div class="mx-auto mobile-container-standard" style="max-width: 1200px;"><div class="lg:hidden"><div class="certificate-container-mobile" style="text-align: center; margin-bottom: 40px;"><img data-edit="IMG_243" src="assets/images/a8edd64ba06892f4.avif" alt="Certificado de Conclusão de Curso" loading="lazy" decoding="async" width="100%" height="auto" class="certificate-image-mobile" style="width: 100%; height: auto; border-radius: 20px; object-fit: contain; display: block; margin: 0px auto;"></div><div class="mobile-text-section" style="text-align: center; margin-bottom: 20px;"><a href="#pricing#pricing class="seta-centralizada-mobile" style="cursor: pointer; text-decoration: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent;"><svg data-edit="ICON_014" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(rgba(255, 255, 255, 0.3) 0px 0px 8px);"><path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a></div></div></div><style>
+<section data-edit="BG_022" class="certificado-section relative overflow-hidden py-5 lg:py-[50px]" style="background: transparent;"><div class="mx-auto mobile-container-standard" style="max-width: 1200px;"><div class="lg:hidden"><div class="certificate-container-mobile" style="text-align: center; margin-bottom: 40px;"><img data-edit="IMG_243" src="assets/images/a8edd64ba06892f4.avif" alt="Certificado de Conclusão de Curso" loading="lazy" decoding="async" width="100%" height="auto" class="certificate-image-mobile" style="width: 100%; height: auto; border-radius: 20px; object-fit: contain; display: block; margin: 0px auto;"></div><div class="mobile-text-section" style="text-align: center; margin-bottom: 20px;"><a href="#pricing" class="seta-centralizada-mobile" style="cursor: pointer; text-decoration: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent;"><svg data-edit="ICON_014" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(rgba(255, 255, 255, 0.3) 0px 0px 8px);"><path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a></div></div></div><style>
         /* ===== DESKTOP LAYOUT - DUAS COLUNAS ===== */
         .certificado-content {
           display: flex;
@@ -1582,6 +1598,10 @@
 
         /* ===== RESPONSIVIDADE ===== */
         @media (max-width: 1023px) {
+          .certificado-section {
+            display: none !important;
+          }
+
           .certificado-content {
             flex-direction: column;
             text-align: center;
@@ -1602,7 +1622,7 @@
           }
         }
       </style></section><!-- SECTION: S13 -->
-<section data-edit="BG_023" id="promo-card-section" class="promo-card-section mobile-container-standard" style="background: rgb(0, 0, 0); padding: 80px 0px 100px;"><div class="promo-card-container"><div class="plans-grid"><div class="card-vitalicio"><div data-edit="BG_024" class="absolute z-[100] font-space-grotesk tracking-wider text-white font-bold text-[14px] px-5 py-2 animate-float" style="top: -15px; right: 30px; background: linear-gradient(135deg, rgb(255, 106, 0) 0%, rgb(255, 143, 0) 100%); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: rgba(0, 0, 0, 0.5) 0px 10px 25px -5px; text-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;">70% OFF</div><div class="plan-title-section" style="margin-bottom: 2px;"><h3 class="plan-subtitle-vitalicio">PLANO</h3><h3 class="plan-name-vitalicio">VITALÍCIO</h3></div><div class="plan-content-vitalicio"><div class="investment-block mb-4 p-4 rounded-2xl bg-transparent border border-[#888888]/30 text-center relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#888888]/30 to-transparent"></div><div class="mx-auto flex justify-center w-full"><p id="recupere-text" class="text-[13px] md:text-[15px]" style="font-family: var(--font-body); color: rgb(224, 224, 224); line-height: 1.3; padding-left: 2px; padding-right: 2px;">Recupere <span class="text-[#00D930] font-extrabold uppercase tracking-wide">todo o seu investimento</span> <br> logo no primeiro projeto.</p></div><div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#888888]/30 to-transparent"></div></div><div class="plan-items-vitalicio"><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Acesso vitalício</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Acesso a todos os fluxos de automação</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Método para criar chatbots de vendas</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">IA aplicada às vendas nas redes sociais</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Estratégia de automação e escala</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Prospecção automática de clientes</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Pack de +500 Fontes</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Pack de Capas de impacto</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Meus agentes de IA</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Comunidade exclusiva de alunos</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Atualizações constantes</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Todos os Bônus</span></div></div></div><div class="price-block-vitalicio"><div class="price-strike-vitalicio">De R$497</div><div class="price-note-vitalicio">Por apenas 12x de</div><div class="price-main-vitalicio"><span class="currency-vitalicio">R$</span>6,93</div><div class="price-footnote-vitalicio">ou R$67,00 à vista</div></div><div class="plan-button-area-vitalicio"><a href="https://pay.kiwify.com.br/tRUxADI" target="_blank" rel="noopener noreferrer" class="framer-btn-container" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"><div class="framer-btn-bevel"><div class="framer-btn-cap"><div class="absolute top-0 left-[-150%] w-[150%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-25deg] animate-shine pointer-events-none" style="z-index: 5;"></div><div class="framer-btn-border"></div><div class="framer-text-container"><p class="framer-text" style="text-transform: uppercase; font-size: 15px;">QUERO GARANTIR MINHA VAGA</p></div><div class="framer-glow-wrap"><div class="framer-glow"></div></div><div class="framer-metal-button"><div class="framer-metal-bevel"><div class="framer-metal-cap"><div class="framer-metal-dot"></div><div class="framer-arrow-icon"><svg data-edit="ICON_015" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></div></div></div></div></div></div></a></div><div class="kiwify-logo-vitalicio flex flex-col items-center mt-8"><div class="flex items-center justify-center mb-4"><img data-edit="IMG_244" src="assets/images/92a0bbca2510de44.svg" alt="Formas de Pagamento" loading="lazy" decoding="async" class="mx-auto opacity-80 w-[200px] md:w-[280px]" height="auto"></div><div class="flex items-center gap-2 bg-[#1A1A1A] px-4 py-2 rounded-full border border-white/10"><svg data-edit="ICON_016" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-[#FF6A00]" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg><span class="text-[12px] text-gray-300 font-medium">Junte-se aos <span class="text-white font-bold">+ de 2.000</span> alunos</span></div></div></div></div></div><style>
+<section data-edit="BG_023" id="promo-card-section" class="promo-card-section mobile-container-standard" style="background: rgb(0, 0, 0); padding: 80px 0px 100px;"><div class="promo-card-container"><div class="plans-grid"><div class="card-vitalicio"><div data-edit="BG_024" class="absolute z-[100] font-space-grotesk tracking-wider text-white font-bold text-[14px] px-5 py-2 animate-float" style="top: -15px; right: 30px; background: linear-gradient(135deg, rgb(255, 106, 0) 0%, rgb(255, 143, 0) 100%); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: rgba(0, 0, 0, 0.5) 0px 10px 25px -5px; text-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;">70% OFF</div><div class="plan-title-section" style="margin-bottom: 2px;"><h3 class="plan-subtitle-vitalicio">PLANO</h3><h3 class="plan-name-vitalicio">VITALÍCIO</h3></div><div class="plan-content-vitalicio"><div class="investment-block mb-4 p-4 rounded-2xl bg-transparent border border-[#888888]/30 text-center relative overflow-hidden"><div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#888888]/30 to-transparent"></div><div class="mx-auto flex justify-center w-full"><p id="recupere-text" class="text-[13px] md:text-[15px]" style="font-family: var(--font-body); color: rgb(224, 224, 224); line-height: 1.3; padding-left: 2px; padding-right: 2px;">Recupere <span class="text-[#00D930] font-extrabold uppercase tracking-wide">todo o seu investimento</span> <br> logo no primeiro projeto.</p></div><div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#888888]/30 to-transparent"></div></div><div class="plan-items-vitalicio"><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Acesso vitalício</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Acesso a todos os fluxos de automação</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Método para criar chatbots de vendas</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">IA aplicada às vendas nas redes sociais</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Estratégia de automação e escala</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Prospecção automática de clientes</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Pack de +500 Fontes</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Pack de Capas de impacto</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Meus agentes de IA</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Comunidade exclusiva de alunos</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Atualizações constantes</span></div><div class="plan-item-vitalicio"><span class="text-[16px]">✓</span><span class="plan-item-text-vitalicio">Todos os Bônus</span></div></div></div><div class="price-block-vitalicio"><div class="price-strike-vitalicio">De R$497</div><div class="price-note-vitalicio">Por apenas 12x de</div><div class="price-main-vitalicio"><span class="currency-vitalicio">R$</span>6,93</div><div class="price-footnote-vitalicio">ou R$67,00 à vista</div></div><div class="plan-button-area-vitalicio"><a href="javascript:void(0)" target="_self" rel="noopener noreferrer" class="framer-btn-container" style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;" onclick="return false;"><div class="framer-btn-bevel"><div class="framer-btn-cap"><div class="absolute top-0 left-[-150%] w-[150%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-25deg] animate-shine pointer-events-none" style="z-index: 5;"></div><div class="framer-btn-border"></div><div class="framer-text-container"><p class="framer-text" style="text-transform: uppercase; font-size: 15px;">QUERO GARANTIR MINHA VAGA</p></div><div class="framer-glow-wrap"><div class="framer-glow"></div></div><div class="framer-metal-button"><div class="framer-metal-bevel"><div class="framer-metal-cap"><div class="framer-metal-dot"></div><div class="framer-arrow-icon"><svg data-edit="ICON_015" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></div></div></div></div></div></div></a></div><div class="kiwify-logo-vitalicio flex flex-col items-center mt-8"><div class="flex items-center justify-center mb-4"><img data-edit="IMG_244" src="assets/images/92a0bbca2510de44.svg" alt="Formas de Pagamento" loading="lazy" decoding="async" class="mx-auto opacity-80 w-[200px] md:w-[280px]" height="auto"></div><div class="flex items-center gap-2 bg-[#1A1A1A] px-4 py-2 rounded-full border border-white/10"><svg data-edit="ICON_016" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-[#FF6A00]" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg><span class="text-[12px] text-gray-300 font-medium">Junte-se aos <span class="text-white font-bold">+ de 2.000</span> alunos</span></div></div></div></div></div><style>
         /* CHECKOUT OVERLAY STYLES */
         .checkout-overlay {
           position: fixed;
@@ -2441,7 +2461,44 @@
 
 
 
+<style>
+  @media (max-width: 768px) {
+    .mobile-container-standard h1,
+    .mobile-container-standard h2,
+    .mobile-container-standard h3,
+    .mobile-container-standard h4,
+    .mobile-container-standard p,
+    .mobile-container-standard span,
+    .plan-item-text-vitalicio,
+    .faq-question,
+    .section-title-standard,
+    .mobile-title-standard,
+    .bonus-title-card {
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+    .plan-name-vitalicio {
+      font-size: clamp(36px, 11vw, 52px) !important;
+      line-height: 1.05 !important;
+    }
+    .price-main-vitalicio {
+      font-size: clamp(56px, 17vw, 80px) !important;
+    }
+
+    .bonus-section .bonus-card {
+      position: relative;
+    }
+
+    .bonus-section .bonus-card .bonus-pill-mobile {
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+</style>
 </body></html>
+
 
 
 
