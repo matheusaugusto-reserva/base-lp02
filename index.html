@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html><html lang="pt-BR" style="scroll-behavior: auto;"><head>
 <base href="./">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <!-- Anti-Cache Meta Tags: Força o navegador a verificar por novas versões -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -27,6 +27,7 @@
       margin: 0;
       padding: 0;
       min-height: 100vh;
+      min-height: 100dvh;
       overflow-x: hidden;
       color: #fff;
       font-family: sans-serif;
@@ -42,6 +43,7 @@
     #root {
       background: transparent;
       min-height: 100vh;
+      min-height: 100dvh;
     }
 
     /* Critical Fonts Definition */
@@ -160,7 +162,7 @@
 
             .hero-desktop-container {
                 align-items: flex-start !important;
-                padding-top: max(18px, env(safe-area-inset-top)) !important;
+                padding-top: 14px !important;
             }
 
             .hero-section h1 {
